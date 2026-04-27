@@ -1,0 +1,121 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <iomanip>
+using namespace std;
+
+void mainMenu();
+void subjectTaskManager();
+void financeCalculator();
+
+int main() {
+    int choice;
+    while (true) {
+        cout << "₊˚⊹♡₊˚⊹♡KMHZ - STUDENT APP TRACKER₊˚⊹♡₊˚⊹♡" << endl;
+        cout << "1. Subject Task Manager" << endl;
+        cout << "2. Daily Finance Calculator" << endl;
+        cout << "3. Exit" << endl;
+        cout << " " << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+       
+        cin.ignore();
+
+        switch (choice) {
+            case 1: subjectTaskManager(); break;
+            case 2: financeCalculator(); break;
+            case 3: 
+                cout << "\nExiting...\n ₊˚⊹♡₊˚⊹♡Thank you for using KMHZ! See ya!" << endl;
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+}
+
+//SUBJECT TASK MANAGER
+void subjectTaskManager() {
+    int numSubjects;
+    cout << "\n ₊˚⊹♡₊˚⊹♡ Subject Task Manager" << endl;
+    cout << "How many subjects do you have? ";
+    cin >> numSubjects;
+    
+    cin.ignore();
+    
+    vector<string> subjects(numSubjects);
+    vector<vector<string>> tasks(numSubjects);
+    
+    //Get subject names
+    for (int i = 0; i < numSubjects; i++) {
+        cout << "Enter name for Subject " << i + 1 << ": ";
+        getline(cin, subjects[i]);
+    }
+    //Add tasks
+    string addMore = "yes";
+    while (addMore == "yes" || addMore == "Yes" || addMore == "YES") {
+        cout << "\nSelect a subject to add a task to:" << endl;
+        for (int i = 0; i < numSubjects; i++) {
+            cout << i + 1 << ". " << subjects[i] << endl;
+        }
+        
+        int subChoice;
+        cout << "Choice: ";
+        cin >> subChoice;
+        cin.ignore();
+        if (subChoice > 0 && subChoice <= numSubjects) {
+            string taskName;
+            cout << "Enter task for " << subjects[subChoice - 1] << ": ";
+            getline(cin, taskName);
+
+            tasks[subChoice - 1].push_back(taskName);
+        }
+        cout << "Add another task? (yes/no): ";
+        cin >> addMore;
+        
+        cin.ignore();
+    }
+    //Display final list
+    cout << "\n Your Organized To-Do List" << endl;
+    for (int i = 0; i < numSubjects; i++) {
+        cout << "\n[" << subjects[i] << "]" << endl;
+        if (tasks[i].empty()) {
+            cout << "  (No tasks yet)" << endl;
+        } else {
+            for (const string& t : tasks[i]) {
+                cout << "  - " << t << endl;
+            }
+        }
+    }
+}
+//DAILY FINANCE CALCULATOR
+void financeCalculator() {
+    double budget;
+    cout << "\n₊˚⊹♡₊˚⊹♡Daily Finance Calculator"<< endl;
+    cout << "What is your budget for today? ";
+    cin >> budget;
+    
+    vector<string> items;
+    vector<double> costs;
+    
+    string addMore = "yes";
+    while (addMore == "yes" || addMore == "Yes" || addMore == "YES") {
+        string item;
+        double cost;
+        cout << "Enter item name: ";
+        cin.ignore();
+        getline(cin, item);
+        cout << "Enter cost: ";
+        cin >> cost;
+        items.push_back(item);
+        costs.push_back(cost);
+        budget -= cost;
+        cout << "Remaining Budget: " << fixed << setprecision(2) << budget << endl;
+        cout << "Add another expense? (yes/no): ";
+        cin >> addMore;
+    }
+    cout << "\n₊˚⊹♡₊˚⊹♡ Final Expense Summary" << endl;
+    for (size_t i = 0; i < items.size(); i++) {
+        cout << items[i] << ": -$" << costs[i] << endl;
+    }
+    cout << "Final Remaining Balance: ₱" << budget << endl;
+}
