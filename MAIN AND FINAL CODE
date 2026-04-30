@@ -87,6 +87,7 @@ void subjectTaskManager() {
         }
     }
 }
+
 //DAILY FINANCE CALCULATOR
 void financeCalculator() {
     double budget;
